@@ -1,35 +1,46 @@
 <template>
 	<Experiment title="Mental Rotation Experiment">
 		<InstructionScreen :title="'Welcome'">
-			Welcome, participants of the mental rotation experiment!
+			Welcome to the mental rotation experiment!
 		</InstructionScreen>
 
 		<InstructionScreen :title="'General Instructions'">
-			This is a sample instructions view.
+			Please read the following instruction before you start the experiment:
 			<br />
 			<br />
-			Add instructions here...
+			Please compare each pair of pictures and decide they are
+			<br />
+			<br />
+				<li>the same object</li>
+				<li>different objects</li>
+			<br /> 
+			If they are the same object, it should be able to get the same image after rotation.
+			If rotation cannot result in the same image, they are different objects.
+			<br /> 
+			<br />
+			Please press "f" on the keyboard if you think they are the same object, press "j" if they are different.
+			<br /> 
+			<br />
+			If you are ready, please press NEXT to start the experiment
 		</InstructionScreen>
 		<!-- Here we create screens in a loop for every entry in training_trials -->
     <template v-for="(trial, i) of training_trials">
 			<KeypressScreen
-				question="Are these two figures the same except for their orientation?"
+				question="Are they the same object or different objects?"
 				:feedback-time="800"
 				:fixation-time="getRandomFixationTime()"
 				:response-time="7500"
-				:keys="{
-					'f':'same',
-					'j':'different'
-				}"
+				:keys="{'f': 'same', 'j': 'different'}"
+				:key="i"
 			>
 				<template #stimulus>
 					<img :src="trial.picture" />
 					<Record :data="{
 						angle: trial.angle,
 						expected_answer: trial.expected,
-						item_number: trial.item,
+						item_num: trial.item,
 						trial_type: 'training',
-						trial_number: i+1,
+						trial_num: i+1,
 					}"/>
 				</template>
 				<template #feedback>
